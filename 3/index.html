@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陳冠傑的作品集</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  background: #222;
+}
+
+section {
+  padding: 20px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+a.game {
+  text-decoration: none;
+  color: white;
+}
+
+.game {
+  background: #1e1e1e;
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.game:hover {
+  transform: scale(1.03);
+}
+
+/* 縮圖共用 */
+.thumbnail {
+  width: 100%;
+  max-width: 300px;
+  height: 180px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 打地鼠 */
+.mole-thumb {
+  background: #3a2a1a;
+}
+
+.mole-thumb::before {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 40px;
+  background: black;
+  border-radius: 50%;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.mole-thumb::after {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: brown;
+  border-radius: 50%;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 貪吃蛇 */
+.snake-thumb {
+  background: #111;
+}
+
+.snake-thumb::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #0f0;
+  box-shadow:
+    20px 0 #0f0,
+    40px 0 #0f0,
+    60px 0 #0f0,
+    60px 20px #0f0,
+    60px 40px #0f0,
+    40px 40px #0f0,
+    20px 40px #0f0;
+  top: 40px;
+  left: 40px;
+}
+
+.snake-thumb::after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: red;
+  border-radius: 50%;
+  bottom: 30px;
+  right: 30px;
+}
+
+.game h2 {
+  margin: 10px 0 5px;
+}
+
+.game p {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>陳冠傑的作品集</header>
+
+<section>
+  <h2>HTML 遊戲特色</h2>
+  <p>
+    使用 HTML、CSS 與 JavaScript 製作的遊戲具有跨平台優勢，
+    可在手機與電腦瀏覽器直接遊玩，不需下載，
+    並支援即時互動與音效，開發快速且容易分享。
+  </p>
+</section>
+
+<section class="container">
+
+  <!-- 打地鼠 -->
+  <a href="1/" class="game">
+    <div class="thumbnail mole-thumb"></div>
+    <h2>遊戲1：打地鼠</h2>
+    <p>
+      玩法：點擊出現的地鼠得分<br><br>
+      特色：反應力挑戰、隨機出現、音效回饋、支援手機
+    </p>
+  </a>
+
+  <!-- 貪吃蛇 -->
+  <a href="2/" class="game">
+    <div class="thumbnail snake-thumb"></div>
+    <h2>遊戲2：貪吃蛇</h2>
+    <p>
+      玩法：控制蛇吃食物變長<br><br>
+      特色：經典玩法、速度增加、碰撞判定、支援觸控
+    </p>
+  </a>
+
+</section>
+
+</body>
+</html>
