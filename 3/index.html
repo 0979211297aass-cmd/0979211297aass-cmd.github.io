@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="陳冠傑">
+    <title>工程計算機</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .calculator {
+            background: #2d2d2d;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .display {
+            background: #1a1a1a;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: right;
+            color: #00ff00;
+            font-size: 32px;
+            font-weight: bold;
+            word-wrap: break-word;
+            word-break: break-all;
+            min-height: 60px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: #764ba2;
+        }
+
+        .mode-btn:hover {
+            opacity: 0.8;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #404040;
+            color: #ffffff;
+        }
+
+        button:hover {
+            background: #505050;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .operator {
+            background: #667eea;
+        }
+
+        .operator:hover {
+            background: #764ba2;
+        }
+
+        .equals {
+            background: #10b981;
+            grid-column: span 2;
+        }
+
+        .equals:hover {
+            background: #059669;
+        }
+
+        .clear {
+            background: #ef4444;
+            grid-column: span 2;
+        }
+
+        .clear:hover {
+            background: #dc2626;
+        }
+
+        .scientific {
+            display: none;
+        }
+
+        .scientific.show {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .scientific button {
+            flex: 1;
+            min-width: calc(25% - 8px);
+            font-size: 12px;
+            padding: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1 style="text-align: center; color: #667eea; margin-bottom: 15px; font-size: 24px;">工程計算機</h1>
+        
+        <div class="mode-toggle">
+            <button class="mode-btn active" onclick="toggleBasic()">基礎</button>
+            <button class="mode-btn" onclick="toggleScientific()">科學</button>
+        </div>
+
+        <div class="display" id="display">0</div>
+
+        <div class="buttons">
+            <!-- Row 1 -->
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="appendOperator('/')">/</button>
+            <button class="operator" onclick="appendOperator('*')">*</button>
+
+            <!-- Row 2 -->
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="appendOperator('-')">-</button>
+
+            <!-- Row 3 -->
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button class="operator" onclick="appendOperator('+')">+</button>
+
+            <!-- Row 4 -->
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button class="operator" onclick="appendOperator('.')">,</button>
+
+            <!-- Row 5 -->
+            <button onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+            <button class="operator" onclick="toggleSign()">+/-</button>
+            <button class="equals" onclick="calculate()">=</button>
+        </div>
+
+        <!-- Scientific buttons -->
+        <div class="scientific" id="scientificButtons">
+            <button onclick="scientificFunction('sin')">sin</button>
+            <button onclick="scientificFunction('cos')">cos</button>
+            <button onclick="scientificFunction('tan')">tan</button>
+            <button onclick="scientificFunction('sqrt')">√</button>
+
+            <button onclick="scientificFunction('asin')">asin</button>
+            <button onclick="scientificFunction('acos')">acos</button>
+            <button onclick="scientificFunction('atan')">atan</button>
+            <button onclick="scientificFunction('pow')">x^y</button>
+
+            <button onclick="appendOperator('%')">%</button>
+            <button onclick="scientificFunction('log')">log</button>
+            <button onclick="scientificFunction('ln')">ln</button>
+            <button onclick="scientificFunction('pi')">π</button>
+
+            <button onclick="scientificFunction('factorial')">n!</button>
+            <button onclick="scientificFunction('reciprocal')">1/x</button>
+            <button onclick="appendOperator('(')">（</button>
+            <button onclick="appendOperator(')')">）</button>
+        </div>
+        <div style="text-align: center; color: #999; font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #404040;">作者：陳冠傑</div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentValue = '0';
+        let previousValue = '';
+        let operation = null;
+        let shouldResetDisplay = false;
+
+        function updateDisplay() {
+            display.textContent = currentValue;
+        }
+
+        function appendNumber(num) {
+            if (shouldResetDisplay) {
+                currentValue = num;
+                shouldResetDisplay = false;
+            } else {
+                if (currentValue === '0' && num !== '.') {
+                    currentValue = num;
+                } else if (num === '.' && currentValue.includes('.')) {
+                    return;
+                } else {
+                    currentValue += num;
+                }
+            }
+            updateDisplay();
+        }
+
+        function appendOperator(op) {
+            if (op === '.' || op === ',') {
+                appendNumber('.');
+            } else if (op === '(' || op === ')') {
+                currentValue += op;
+                updateDisplay();
+            } else {
+                if (previousValue && currentValue && operation) {
+                    calculate();
+                }
+                previousValue = currentValue;
+                operation = op;
+                currentValue = '0';
+                shouldResetDisplay = true;
+            }
+        }
+
+        function calculate() {
+            if (!operation || !previousValue) return;
+
+            let result;
+            const prev = parseFloat(previousValue);
+            const current = parseFloat(currentValue);
+
+            switch (operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    result = current !== 0 ? prev / current : '錯誤';
+                    break;
+                case '%':
+                    result = prev % current;
+                    break;
+                default:
+                    return;
+            }
+
+            currentValue = result.toString();
+            operation = null;
+            previousValue = '';
+            shouldResetDisplay = true;
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentValue = '0';
+            previousValue = '';
+            operation = null;
+            shouldResetDisplay = false;
+            updateDisplay();
+        }
+
+        function toggleSign() {
+            currentValue = (parseFloat(currentValue) * -1).toString();
+            updateDisplay();
+        }
+
+        function scientificFunction(func) {
+            let value = parseFloat(currentValue);
+            let result;
+
+            switch (func) {
+                case 'sin':
+                    result = Math.sin(toRadians(value));
+                    break;
+                case 'cos':
+                    result = Math.cos(toRadians(value));
+                    break;
+                case 'tan':
+                    result = Math.tan(toRadians(value));
+                    break;
+                case 'asin':
+                    result = toDegrees(Math.asin(value));
+                    break;
+                case 'acos':
+                    result = toDegrees(Math.acos(value));
+                    break;
+                case 'atan':
+                    result = toDegrees(Math.atan(value));
+                    break;
+                case 'sqrt':
+                    result = Math.sqrt(value);
+                    break;
+                case 'pow':
+                    currentValue += '^';
+                    updateDisplay();
+                    return;
+                case 'log':
+                    result = Math.log10(value);
+                    break;
+                case 'ln':
+                    result = Math.log(value);
+                    break;
+                case 'factorial':
+                    result = factorial(Math.floor(value));
+                    break;
+                case 'reciprocal':
+                    result = 1 / value;
+                    break;
+                case 'pi':
+                    currentValue = Math.PI.toString();
+                    updateDisplay();
+                    return;
+                default:
+                    return;
+            }
+
+            if (currentValue.includes('^')) {
+                const parts = currentValue.split('^');
+                result = Math.pow(parseFloat(parts[0]), parseFloat(parts[1]));
+            }
+
+            currentValue = result.toFixed(8).toString();
+            if (currentValue.endsWith('00000000')) {
+                currentValue = Math.round(result).toString();
+            }
+            shouldResetDisplay = true;
+            updateDisplay();
+        }
+
+        function toRadians(degrees) {
+            return degrees * (Math.PI / 180);
+        }
+
+        function toDegrees(radians) {
+            return radians * (180 / Math.PI);
+        }
+
+        function factorial(n) {
+            if (n < 0) return '錯誤';
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function toggleBasic() {
+            document.getElementById('scientificButtons').classList.remove('show');
+            document.querySelectorAll('.mode-btn')[0].classList.add('active');
+            document.querySelectorAll('.mode-btn')[1].classList.remove('active');
+        }
+
+        function toggleScientific() {
+            document.getElementById('scientificButtons').classList.add('show');
+            document.querySelectorAll('.mode-btn')[0].classList.remove('active');
+            document.querySelectorAll('.mode-btn')[1].classList.add('active');
+        }
+
+        // Initialize
+        updateDisplay();
+    </script>
+</body>
+</html>

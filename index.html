@@ -61,10 +61,7 @@ a.game {
 }
 
 /* 打地鼠 */
-.mole-thumb {
-  background: #3a2a1a;
-}
-
+.mole-thumb { background: #3a2a1a; }
 .mole-thumb::before {
   content: "";
   position: absolute;
@@ -76,7 +73,6 @@ a.game {
   left: 50%;
   transform: translateX(-50%);
 }
-
 .mole-thumb::after {
   content: "";
   position: absolute;
@@ -90,10 +86,7 @@ a.game {
 }
 
 /* 貪吃蛇 */
-.snake-thumb {
-  background: #111;
-}
-
+.snake-thumb { background: #111; }
 .snake-thumb::before {
   content: "";
   position: absolute;
@@ -111,7 +104,6 @@ a.game {
   top: 40px;
   left: 40px;
 }
-
 .snake-thumb::after {
   content: "";
   position: absolute;
@@ -121,6 +113,31 @@ a.game {
   border-radius: 50%;
   bottom: 30px;
   right: 30px;
+}
+
+/* 計算機 */
+.calc-thumb {
+  background: #222;
+}
+
+.calc-thumb::before {
+  content: "123\\A456\\A789";
+  white-space: pre;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #0f0;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.calc-thumb::after {
+  content: "+ - × ÷ =";
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #ff9800;
+  font-size: 18px;
 }
 
 .game h2 {
@@ -171,6 +188,16 @@ a.game {
     <p>
       玩法：控制蛇吃食物變長<br><br>
       特色：經典玩法、速度增加、碰撞判定、支援觸控
+    </p>
+  </a>
+
+  <!-- 計算機 -->
+  <a href="https://0979211297aass-cmd.github.io/3/" class="game">
+    <div class="thumbnail calc-thumb"></div>
+    <h2>工具：計算機</h2>
+    <p>
+      玩法：輸入數字進行加減乘除運算<br><br>
+      特色：基本四則運算、即時顯示結果、簡潔介面、支援手機操作
     </p>
   </a>
 
